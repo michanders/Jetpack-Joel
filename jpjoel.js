@@ -200,7 +200,7 @@ function endGame(){
   alert("Game Over. Score: " + counter)
   clearInterval(scoreInterval);
   clearInterval(fuelInterval);
-  window.location.reload(true);
+  window.location.reload(false);
 }
 
 function setAsteroidInterval(velocity = 2) {
