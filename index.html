@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Jetpack Joel</title>
+	<link rel = "stylesheet" type = "text/css" href = "jpjoel.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  
+  <body>
+	<div id='header'>
+		<h1>Jetpack Joel</h1>
+	</div>
+	<div id='scoreboard'>
+	    <div id='fueler'><p id='fuel'></p></div>
+		<div id='counter'><p id='count'></p></div>
+	</div>
+
+    <div id = "game">
+	  
+	  <div id="jpjoel">
+		<div id="hat">
+			<div id="ahat"></div>
+			<div id="bhat"></div>
+		</div>
+		<div id="head"></div>
+		<div id="bod"></div>
+		<div id="arm"></div>
+		<div id="pants"></div>
+		<div id="shoe"></div>
+		<div id="jpack"></div>
+		<div id="flame"></div>
+	  </div>
+	  
+	  <div id="ships">
+		<img src="images/ship.png" id='ship'>
+	  </div>
+	  
+	  <div id ="start">
+	    <p>SPACEBAR to Start</p>
+	  </div>
+	  
+	</div>
+	
+	<audio id="hs_audio" loop="loop" muted controls>
+		<source src="music/JPJfull.mp3" type="audio/mpeg">
+	</audio>
+	
+	<button id='aboutjpj' title="About Jetpack Joel">?</button>
+	
+	<div id='about'>
+		<p>Welcome To Jetpack Joel! After abandoning his ship due to power loss, Joel
+		is advised to get as close to the rendezvous point as possible.
+		Use SPACEBAR to help Joel navigate the increasingly dangerous asteroid fields! 
+		Keep an eye on your fuel meter. 
+		Fuel tanks only appear every so often... Good luck!</p>
+	</div>
+	
+	<script src = "jpjoel.js"></script>
+  </body>
+</html>
