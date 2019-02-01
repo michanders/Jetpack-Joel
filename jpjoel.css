@@ -255,3 +255,18 @@ audio {
   position: absolute;
 }
 
+#endgame {
+  margin: auto;
+  background: transparent;
+  text-align: center;
+  font-size: 30px;
+  width: 50%;
+  height: 100px;
+  color: white;
+  position: absolute;
+  left: 25%;
+  top: 150px;
+  display: block;
+}
+
+

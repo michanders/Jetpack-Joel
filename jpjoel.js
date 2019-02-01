@@ -8,19 +8,21 @@ const THRUSTER = 32 // use e.which;
 const START = document.getElementById('start');
 const ABOUT = document.getElementById('about');
 const SPACER = document.getElementById('spacer');
+const ENDGAME = document.getElementById('endgame');
 var counter = 0;
+var cdown = 6;
 const OBJECTTYPE = [];
 const FUELTANK = [];
 var gameInterval = null;
 var countInterval = null;
 var fuelTankInterval = null;
 var ghostInterval = null;
+var displayEndInterval = null;
 var ghost = null;
 var fuel = 100;
 var astint = 1500;
 var id = null;
-var spacebar = false;
-var mouseStillDown = null;
+var endgame = null;
 
 function checkImpact(obj){
 	var left = positionToInteger(obj.style.right) + 25;
@@ -52,7 +54,9 @@ function checkImpact(obj){
 				return false;
 			}
 			else {
-				return true;
+				if (endgame != true) {
+					return true;
+				}
 			}
 		}
 	}
@@ -68,6 +72,7 @@ function createFlyingObj(objectType, objectTop, objectRight = 0, velocity = 2){
   function moveObj(){
 	obj.style.right = `${right += velocity}px`;
     if (checkImpact(obj)){
+      $('#jpjoel').animate({left: '-=200'}, 1000);
       endGame();
     }
     if(right > 0 && right <= GAME.clientWidth){
@@ -188,7 +193,15 @@ function spacePhysics(){
   , 500);
 }
 
+function display() {
+	if(cdown >=1){
+		cdown--;
+	}
+	ENDGAME.innerHTML = "Game Over!!! " + "<br />" + "Score: " + counter + "<br />" + "New Game in... " + cdown;
+}
+
 function endGame(){
+  endgame = true;
   window.removeEventListener('keydown', thrust);
   window.removeEventListener('keyup', thrustoff);
   window.removeEventListener('touchstart', thrust);
@@ -197,10 +210,16 @@ function endGame(){
   clearInterval(gameInterval);
   clearInterval(asteroidInterval);
   clearInterval(ghostInterval);
-  alert("Game Over. Score: " + counter)
   clearInterval(scoreInterval);
   clearInterval(fuelInterval);
-  window.location.reload(false);
+  display();
+  setInterval(display, 1000);
+  setTimeout(reload, 5000);
+}
+
+
+function reload() {
+  window.location.reload(true);
 }
 
 function setAsteroidInterval(velocity = 2) {
