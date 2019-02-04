@@ -98,7 +98,7 @@ function moveJoelUp(){
 	  var joelTop = JOEL.style.top.replace('px', '');
 	  var joelt = parseInt(joelTop, 10);
 	  if (joelt > 0) {
-		$('#jpjoel').animate({top: '-=6'}, 0);
+		$('#jpjoel').animate({top: '-=8'}, 0);
 	  }
 	  else if (joelt = 0) {
 		$('#jpjoel').animate({top: '+5'}, 0);
