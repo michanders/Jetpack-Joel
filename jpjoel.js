@@ -4,15 +4,17 @@ const FLAME = document.getElementById('flame');
 const GAME = document.getElementById('game');
 const GAME_WIDTH = $('#game').width();
 const GAME_HEIGHT = $('#game').height();
-const THRUSTER = 32 // use e.which;
+const THRUSTER = 32
 const START = document.getElementById('start');
 const ABOUT = document.getElementById('about');
 const SPACER = document.getElementById('spacer');
 const ENDGAME = document.getElementById('endgame');
-var counter = 0;
-var cdown = 6;
 const OBJECTTYPE = [];
 const FUELTANK = [];
+var counter = 0;
+var cdown = 6;
+var cursor = 0;
+var KC = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 var gameInterval = null;
 var countInterval = null;
 var fuelTankInterval = null;
@@ -284,7 +286,7 @@ function start() {
   
   ghostInterval = setInterval(function() {
     createFlyingObj('ghost' , Math.floor(Math.random()*(GAME_HEIGHT)), 0, 3)}
-  , 40000);
+  , 35000);
   
   setAsteroidInterval();
   asteroidInterval = setInterval(setAsteroidInterval, 20000);
@@ -298,6 +300,18 @@ $(function() {
 		$("#start").toggle();
     });
 });
+
+document.addEventListener('keydown', (e) => {
+  cursor = (e.keyCode == KC[cursor]) ? cursor + 1 : 0;
+  if (cursor == KC.length) {
+  	openInNewTab('https://liblib.herokuapp.com/');
+  }
+});
+
+function openInNewTab(url) {
+  var win = window.open(url, '_blank');
+  win.focus();
+};
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 	window.addEventListener('touchstart', takeoff);
