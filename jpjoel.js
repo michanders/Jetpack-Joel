@@ -315,7 +315,7 @@ function openInNewTab(url) {
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 	window.addEventListener('touchstart', takeoff);
-	START.innerHTML = "TAP to Start";
+	START.innerHTML = "Not ready for mobile yet" + "<br />" + "Sorry, gamers";
 }
 
 spacePhysics();
