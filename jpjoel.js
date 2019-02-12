@@ -2,6 +2,8 @@ const JOEL = document.getElementById('jpjoel');
 const SHIP = document.getElementById('ship');
 const FLAME = document.getElementById('flame');
 const GAME = document.getElementById('game');
+const JBOMB = document.getElementById('jbomb');
+const AST = document.getElementsByClassName('ast');
 const GAME_WIDTH = $('#game').width();
 const GAME_HEIGHT = $('#game').height();
 const THRUSTER = 32
@@ -9,7 +11,7 @@ const START = document.getElementById('start');
 const ABOUT = document.getElementById('about');
 const SPACER = document.getElementById('spacer');
 const ENDGAME = document.getElementById('endgame');
-const OBJECTTYPE = [];
+var OBJECTTYPE = [];
 const FUELTANK = [];
 var counter = 0;
 var cdown = 6;
@@ -19,8 +21,10 @@ var gameInterval = null;
 var countInterval = null;
 var fuelTankInterval = null;
 var ghostInterval = null;
+var jBombInterval = null;
 var displayEndInterval = null;
 var ghost = null;
+var bomb = null;
 var fuel = 100;
 var astint = 1500;
 var id = null;
@@ -29,6 +33,9 @@ var endgame = null;
 function checkImpact(obj){
 	var left = positionToInteger(obj.style.right) + 25;
 	if (left < GAME.clientWidth - 180 || left > GAME.clientWidth - 151){
+		return false;
+	}
+	else if (obj.className === 'ast2'){
 		return false;
 	}
 	else if (left > GAME.clientWidth - 180 || left > GAME.clientWidth - 150) {
@@ -48,6 +55,13 @@ function checkImpact(obj){
 				JOEL.style.opacity = .5;
 				obj.remove();
 				setTimeout(joelGhost, 10000);
+			}
+			else if (obj.className === 'bomb') {
+				obj.remove();
+				var bombs = document.getElementById('bombs');
+				bombs.innerHTML = "J-Bomb: " + 1;
+				bomb = true;
+				clearInterval(jBombInterval)
 			}
 			else if (obj.className === 'stars'){
 				return false;
@@ -129,6 +143,7 @@ function moveShip(){
   removeEventListener('touchstart', takeoff);
   window.addEventListener('keyup', thrustoff);
   window.addEventListener('keydown', thrust);
+  window.addEventListener('keydown', jBomb);
   window.addEventListener('touchend', thrustoff);
   window.addEventListener('touchstart', thrust);
 }
@@ -161,6 +176,30 @@ function takeoff(e) {
 	FLAME.style.display = 'inline-block';
 	$('#jpjoel').animate({top: '-=5'}, 0);
   }
+}
+
+function jBomb(e) {
+	e.preventDefault();
+    e.stopPropagation();
+	if (bomb === true && e.which === 66) {
+		bomb = false;
+		JBOMB.style.opacity = 1;
+		var bombs = document.getElementById('bombs');
+		bombs.innerHTML = "J-Bomb: " + 0;
+		jBomber();
+		setjBombInterval();
+		for (var x = 0; x < OBJECTTYPE.length; x++){
+			if (OBJECTTYPE[x].className === 'ast'){
+				OBJECTTYPE[x].className = 'ast2';
+				OBJECTTYPE[x].remove();
+			}
+		}
+	}
+}
+
+function jBomber() {
+  JBOMB.style.opacity -= .1;
+  JBOMB.style.opacity === .1 ? JBOMB.style.opacity = 0 : setTimeout(jBomber, 250);
 }
 
 function displayScore() {
@@ -212,6 +251,7 @@ function endGame(){
   clearInterval(gameInterval);
   clearInterval(asteroidInterval);
   clearInterval(ghostInterval);
+  clearInterval(jBombInterval);
   clearInterval(scoreInterval);
   clearInterval(fuelInterval);
   display();
@@ -263,6 +303,14 @@ function setAsteroidInterval(velocity = 2) {
     , astint);
 }
 
+function setjBombInterval() {
+	if (bomb != true) {
+		jBombInterval = setInterval(function() {
+    		createFlyingObj('bomb' , Math.floor(Math.random()*(GAME_HEIGHT)), 0, 3)}
+  		, 20000);
+	}
+}
+
 function joelGhost() {
 	JOEL.style.opacity = 1;
 	ghost = false;
@@ -287,6 +335,8 @@ function start() {
   ghostInterval = setInterval(function() {
     createFlyingObj('ghost' , Math.floor(Math.random()*(GAME_HEIGHT)), 0, 3)}
   , 35000);
+  
+  setjBombInterval();
   
   setAsteroidInterval();
   asteroidInterval = setInterval(setAsteroidInterval, 20000);
@@ -320,4 +370,3 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 
 spacePhysics();
 window.addEventListener('keydown', takeoff);
-
