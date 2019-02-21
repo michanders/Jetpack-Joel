@@ -145,7 +145,7 @@ function moveShip(){
   $('#ship').animate({left: '-=200', top: '+=150'}, 2500);
   removeEventListener('keydown', takeoff);
   GAME.removeEventListener('mousedown', takeoff);
-  GAME.removeEventListener('touchstart', takeoff);
+  window.removeEventListener('touchstart', takeoff);
   window.addEventListener('keyup', thrustoff);
   window.addEventListener('keydown', thrust);
   window.addEventListener('keydown', jBomb);
@@ -380,7 +380,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 	stars = false;
 	AUDIO.style.display = "none";
 	START.innerHTML = "DOUBLE TOUCH to Start";
-	GAME.addEventListener('touchstart', takeoff);
+	window.addEventListener('touchstart', takeoff);
 	GAME.style.width = "100%";
 	GAME.style.borderLeft = 0;
 	GAME.style.borderRight = 0;
