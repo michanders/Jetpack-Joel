@@ -2,6 +2,8 @@ const JOEL = document.getElementById('jpjoel');
 const SHIP = document.getElementById('ship');
 const FLAME = document.getElementById('flame');
 const GAME = document.getElementById('game');
+const AUDIO = document.getElementById('hsaudio');
+const SB = document.getElementById('scoreboard');
 const JBOMB = document.getElementById('jbomb');
 const AST = document.getElementsByClassName('ast');
 const GAME_WIDTH = $('#game').width();
@@ -110,11 +112,12 @@ function moveJoelUp(){
 	  document.getElementById('fuel').style.color = 'red';
   }
   if (fuel > 1) {
-	  fuel -= .1;
+	  fuel -= .05;
 	  var joelTop = JOEL.style.top.replace('px', '');
 	  var joelt = parseInt(joelTop, 10);
 	  if (joelt > 0) {
-		$('#jpjoel').animate({top: '-=8'}, 0);
+		$('#jpjoel').animate({top: '-=5'}, 0);
+		id = requestAnimationFrame(moveJoelUp);
 	  }
 	  else if (joelt = 0) {
 		$('#jpjoel').animate({top: '+5'}, 0);
@@ -140,19 +143,24 @@ function moveShip(){
   SHIP.style.transform = 'rotate(-5deg)';
   $('#ship').animate({left: '-=200', top: '+=150'}, 2500);
   removeEventListener('keydown', takeoff);
+  GAME.removeEventListener('mousedown', takeoff);
+  GAME.removeEventListener('touchstart', takeoff);
   removeEventListener('touchstart', takeoff);
   window.addEventListener('keyup', thrustoff);
   window.addEventListener('keydown', thrust);
   window.addEventListener('keydown', jBomb);
-  window.addEventListener('touchend', thrustoff);
+  window.addEventListener('touchstart', jBomb);
+  window.addEventListener('mouseup', thrustoff);
+  window.addEventListener('mousedown', thrust);
   window.addEventListener('touchstart', thrust);
+  id = requestAnimationFrame(moveJoelUp);
 }
  
 function thrust(e){
   e.preventDefault();
   e.stopPropagation();
   cancelAnimationFrame(id);
-  if (e.which === 32 || e.type === 'touchstart') {
+  if (e.which === 32 || e.type === 'touchstart' || e.type === 'mousedown') {
     moveJoelUp();
   }
   else {
@@ -171,7 +179,7 @@ function thrustoff(e){
 function takeoff(e) {
   e.preventDefault();
   e.stopPropagation();
-  if (e.which === 32 || e.type === 'touchstart'){
+  if (e.which === 32 || e.type === 'mousedown' || e.targetTouches.length > 1){
 	moveShip();
 	FLAME.style.display = 'inline-block';
 	$('#jpjoel').animate({top: '-=5'}, 0);
@@ -181,9 +189,10 @@ function takeoff(e) {
 function jBomb(e) {
 	e.preventDefault();
     e.stopPropagation();
-	if (bomb === true && e.which === 66) {
+	if (bomb === true && (e.which === 66 || e.targetTouches.length > 1)) {
 		bomb = false;
 		JBOMB.style.opacity = 1;
+		JBOMB.style.zIndex = 1;
 		var bombs = document.getElementById('bombs');
 		bombs.innerHTML = "J-Bomb: " + 0;
 		jBomber();
@@ -245,6 +254,8 @@ function endGame(){
   endgame = true;
   window.removeEventListener('keydown', thrust);
   window.removeEventListener('keyup', thrustoff);
+  window.removeEventListener('mousedown', thrust);
+  window.removeEventListener('mouseup', thrustoff);
   window.removeEventListener('touchstart', thrust);
   window.removeEventListener('touchend', thrustoff);
   cancelAnimationFrame(id);
@@ -307,7 +318,7 @@ function setjBombInterval() {
 	if (bomb != true) {
 		jBombInterval = setInterval(function() {
     		createFlyingObj('bomb' , Math.floor(Math.random()*(GAME_HEIGHT)), 0, 3)}
-  		, 20000);
+  		,20000);
 	}
 }
 
@@ -317,10 +328,9 @@ function joelGhost() {
 }
 
 function start() {
-  
-  var music = document.getElementById("hs_audio");
-  music.play();
-  music.volume = 0.4;
+	
+  AUDIO.play();
+  AUDIO.volume = 0.4;
   
   START.style.opacity = 0;
   ABOUT.style.display = 'none';
@@ -364,9 +374,29 @@ function openInNewTab(url) {
 };
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
-	window.addEventListener('touchstart', takeoff);
-	START.innerHTML = "Not ready for mobile yet" + "<br />" + "Sorry, gamers";
+	AUDIO.style.display = "none";
+	START.innerHTML = "DOUBLE TOUCH to Start";
+	GAME.addEventListener('touchstart', takeoff);
+	GAME.style.width = "100%";
+	GAME.style.borderLeft = 0;
+	GAME.style.borderRight = 0;
+	GAME.style.borderBottom = '2px solid white';
+	SB.style.borderLeft = 0;
+	SB.style.borderRight = 0;
+	SB.style.width = "100%";
+	JBOMB.style.width = "100%";
+	JBOMB.style.left = "0%";
+	window.addEventListener('touchstart', musicOn);
+}
+
+function musicOn(e){
+	if (e.targetTouches.length > 3) {
+		AUDIO.muted == true ? AUDIO.muted = false : AUDIO.muted = true;
+	}
 }
 
 spacePhysics();
+GAME.addEventListener('mousedown', takeoff);
 window.addEventListener('keydown', takeoff);
+
+

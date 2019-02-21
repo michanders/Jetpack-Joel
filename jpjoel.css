@@ -295,6 +295,6 @@ audio {
   width: 75%;
   top: 105px;
   left: 12.5%;
+  z-index: -1;
 }
-
 
