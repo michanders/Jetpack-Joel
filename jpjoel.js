@@ -146,7 +146,6 @@ function moveShip(){
   removeEventListener('keydown', takeoff);
   GAME.removeEventListener('mousedown', takeoff);
   GAME.removeEventListener('touchstart', takeoff);
-  removeEventListener('touchstart', takeoff);
   window.addEventListener('keyup', thrustoff);
   window.addEventListener('keydown', thrust);
   window.addEventListener('keydown', jBomb);
@@ -154,6 +153,7 @@ function moveShip(){
   window.addEventListener('mouseup', thrustoff);
   window.addEventListener('mousedown', thrust);
   window.addEventListener('touchstart', thrust);
+  window.addEventListener('touchend', thrustoff);
   id = requestAnimationFrame(moveJoelUp);
 }
  
