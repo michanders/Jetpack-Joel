@@ -15,6 +15,7 @@ const SPACER = document.getElementById('spacer');
 const ENDGAME = document.getElementById('endgame');
 var OBJECTTYPE = [];
 const FUELTANK = [];
+var stars = true;
 var counter = 0;
 var cdown = 6;
 var cursor = 0;
@@ -227,20 +228,22 @@ function positionToInteger(p) {
 }
 
 function spacePhysics(){
-	starsInterval = setInterval(function() {
-    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
-	Math.floor(Math.random()*(GAME_WIDTH)), .5)}
-  , 800);
-  
-  starsInterval = setInterval(function() {
-    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
-	Math.floor(Math.random()*(GAME_WIDTH)), 1)}
-  , 700);
-  
-  starsInterval = setInterval(function() {
-    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
-	Math.floor(Math.random()*(GAME_WIDTH)), 2.5)}
-  , 500);
+	if (stars === true) {
+		starsInterval = setInterval(function() {
+	    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
+		Math.floor(Math.random()*(GAME_WIDTH)), .5)}
+	  , 800);
+	  
+	  starsInterval = setInterval(function() {
+	    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
+		Math.floor(Math.random()*(GAME_WIDTH)), 1)}
+	  , 700);
+	  
+	  starsInterval = setInterval(function() {
+	    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
+		Math.floor(Math.random()*(GAME_WIDTH)), 2.5)}
+	  , 500);
+	}
 }
 
 function display() {
@@ -374,6 +377,7 @@ function openInNewTab(url) {
 };
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
+	stars = false;
 	AUDIO.style.display = "none";
 	START.innerHTML = "DOUBLE TOUCH to Start";
 	GAME.addEventListener('touchstart', takeoff);
