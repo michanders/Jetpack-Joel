@@ -4,6 +4,7 @@ body {
 	width: 100%;
 	background: black;
 	background-image: url("images/space.png");
+	font-family: monospace;
 }
 
 #aboutjpj {
@@ -23,14 +24,28 @@ body {
 #about {
 	display: none;
 	margin: auto;
-	text-align: center;
 	font-size: 20px;
-	width: 55%;
-	background: transparent;
+	width: 75%;
+	height: 500px;
+	background: black;
+	background-image: url("images/space.png");
 	position: absolute;
-	top: 125px;
-	left: 22%;
+	top: 105px;
+	left: 12.5%;
     color: white;
+}
+
+#abp {
+	margin: none;
+	padding: 3%;
+	height: 500px;
+	text-align: left;
+}
+
+#poster {
+	max-width: 50%;
+	float: right;
+	max-height: 500px;
 }
 
 #header {
@@ -47,7 +62,8 @@ body {
 	margin: auto;
 	position: relative;
 	top: 5px;
-	font-size: 30px;
+	font-size: 28px;
+	font-style: italic;
 }
 
 #scoreboard {
@@ -68,7 +84,11 @@ body {
 	bottom: 15px;
 	right: 0px;
 	color: white;
-	font-size: 25px;
+	font-size: 22px;
+}
+
+#counter {
+	bottom: 12px;
 }
 
 #fueler {
@@ -80,7 +100,7 @@ body {
 #bombcount {
 	float: right;
 	top: 10px;
-	right: 5px;
+	right: 7px;
 }
 
 #fueler, #fuel, #bombcount, #bombs {

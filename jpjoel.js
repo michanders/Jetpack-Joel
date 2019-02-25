@@ -8,15 +8,14 @@ const JBOMB = document.getElementById('jbomb');
 const AST = document.getElementsByClassName('ast');
 const GAME_WIDTH = $('#game').width();
 const GAME_HEIGHT = $('#game').height();
-const THRUSTER = 32
 const START = document.getElementById('start');
 const ABOUT = document.getElementById('about');
-const SPACER = document.getElementById('spacer');
 const ENDGAME = document.getElementById('endgame');
 var OBJECTTYPE = [];
 const FUELTANK = [];
+var bombs = document.getElementById('bombs');
 var stars = true;
-var counter = 0;
+var counter = -1;
 var cdown = 6;
 var cursor = 0;
 var KC = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
@@ -143,11 +142,8 @@ function moveShip(){
   start();
   SHIP.style.transform = 'rotate(-5deg)';
   $('#ship').animate({left: '-=200', top: '+=150'}, 2500);
-  removeEventListener('keydown', takeoff);
   GAME.removeEventListener('mousedown', takeoff);
   GAME.removeEventListener('touchstart', takeoff);
-  window.addEventListener('keyup', thrustoff);
-  window.addEventListener('keydown', thrust);
   window.addEventListener('keydown', jBomb);
   window.addEventListener('touchstart', jBomb);
   window.addEventListener('mouseup', thrustoff);
@@ -161,7 +157,7 @@ function thrust(e){
   e.preventDefault();
   e.stopPropagation();
   cancelAnimationFrame(id);
-  if (e.which === 32 || e.type === 'touchstart' || e.type === 'mousedown') {
+  if (e.type === 'touchstart' || e.type === 'mousedown') {
     moveJoelUp();
   }
   else {
@@ -180,7 +176,7 @@ function thrustoff(e){
 function takeoff(e) {
   e.preventDefault();
   e.stopPropagation();
-  if (e.which === 32 || e.type === 'mousedown' || e.targetTouches.length > 1){
+  if (e.type === 'mousedown' || e.targetTouches.length > 1){
 	moveShip();
 	FLAME.style.display = 'inline-block';
 	$('#jpjoel').animate({top: '-=5'}, 0);
@@ -255,8 +251,6 @@ function display() {
 
 function endGame(){
   endgame = true;
-  window.removeEventListener('keydown', thrust);
-  window.removeEventListener('keyup', thrustoff);
   window.removeEventListener('mousedown', thrust);
   window.removeEventListener('mouseup', thrustoff);
   window.removeEventListener('touchstart', thrust);
@@ -379,17 +373,16 @@ function openInNewTab(url) {
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 	stars = false;
 	AUDIO.style.display = "none";
-	START.innerHTML = "DOUBLE TOUCH to Start";
+	START.innerHTML = "DOUBLE TAP to Start";
 	GAME.addEventListener('touchstart', takeoff);
-	GAME.style.width = "100%";
-	GAME.style.borderLeft = 0;
-	GAME.style.borderRight = 0;
+	GAME.style.width = "95%";
 	GAME.style.borderBottom = '2px solid white';
-	SB.style.borderLeft = 0;
-	SB.style.borderRight = 0;
-	SB.style.width = "100%";
-	JBOMB.style.width = "100%";
-	JBOMB.style.left = "0%";
+	SB.style.width = "95%";
+	JBOMB.style.width = "95%";
+	ABOUT.style.width = "95%";
+	ABOUT.style.left = "2.5%";
+	ABOUT.style.fontSize = "28px";
+	JBOMB.style.left = "2.5%";
 	window.addEventListener('touchstart', musicOn);
 }
 
@@ -400,7 +393,11 @@ function musicOn(e){
 }
 
 spacePhysics();
+displayScore();
+displayFuel();
+bombs.innerHTML = "J-Bomb: " + 0;
 GAME.addEventListener('mousedown', takeoff);
-window.addEventListener('keydown', takeoff);
+
+
 
 
