@@ -60,7 +60,6 @@ function checkImpact(obj){
 			}
 			else if (obj.className === 'bomb') {
 				obj.remove();
-				var bombs = document.getElementById('bombs');
 				bombs.innerHTML = "J-Bomb: " + 1;
 				bomb = true;
 				clearInterval(jBombInterval)
@@ -119,8 +118,12 @@ function moveJoelUp(){
 		$('#jpjoel').animate({top: '-=5'}, 0);
 		id = requestAnimationFrame(moveJoelUp);
 	  }
-	  else if (joelt = 0) {
-		$('#jpjoel').animate({top: '+5'}, 0);
+	  else if (joelt = 10 && ghost === true) {
+		$('#jpjoel').animate({top: '+444'}, 0);
+		id = requestAnimationFrame(moveJoelUp);
+	  }
+	  else if (joelt = 10 && ghost != true) {
+		endGame();
 	  }
   }
   else {
@@ -133,8 +136,11 @@ function moveJoelDown(){
   var joelt = parseInt(joelTop, 10);
   $('#jpjoel').animate({top: '+=3'}, 0);
   id = requestAnimationFrame(moveJoelDown);
-  if (joelt >= 445 ) {
+  if (joelt >= 445 && ghost != true) {
 	endGame();
+  }
+  else if (joelt > 445 && ghost === true) {
+  	$('#jpjoel').animate({top: '-25'}, 0);
   }
 }
 	
@@ -190,7 +196,6 @@ function jBomb(e) {
 		bomb = false;
 		JBOMB.style.opacity = 1;
 		JBOMB.style.zIndex = 1;
-		var bombs = document.getElementById('bombs');
 		bombs.innerHTML = "J-Bomb: " + 0;
 		jBomber();
 		setjBombInterval();
