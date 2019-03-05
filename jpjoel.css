@@ -33,6 +33,7 @@ body {
 	top: 105px;
 	left: 12.5%;
     color: white;
+    z-index: 1;
 }
 
 #abp {
@@ -293,6 +294,7 @@ audio {
 #endgame {
   margin: auto;
   background: transparent;
+  z-index: -1;
   text-align: center;
   font-size: 30px;
   width: 50%;

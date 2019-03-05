@@ -248,6 +248,7 @@ function spacePhysics(){
 }
 
 function display() {
+	ENDGAME.style.zIndex = 0;
 	if(cdown >=1){
 		cdown--;
 	}
@@ -335,6 +336,7 @@ function start() {
   AUDIO.volume = 0.4;
   
   START.style.opacity = 0;
+  START.style.zIndex = -1;
   ABOUT.style.display = 'none';
   
   scoreInterval = setInterval(displayScore, 1000);
@@ -402,6 +404,7 @@ displayScore();
 displayFuel();
 bombs.innerHTML = "J-Bomb: " + 0;
 GAME.addEventListener('mousedown', takeoff);
+
 
 
 
