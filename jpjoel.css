@@ -7,7 +7,7 @@ body {
 	font-family: monospace;
 }
 
-#aboutjpj {
+#aboutjpj, #starsoff {
 	margin: none;
 	position: absolute;
 	top: 5px;
@@ -19,6 +19,15 @@ body {
 	border: none;
 	font-size: 30px;
 	opacity: .4;
+	outline: none;
+}
+
+#starsoff {
+	left: 45px;
+	top: 2px;
+	font-size: 60px;
+	opacity: 1;
+	color: green;
 }
 
 #about {

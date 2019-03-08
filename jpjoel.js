@@ -11,6 +11,7 @@ const GAME_HEIGHT = $('#game').height();
 const START = document.getElementById('start');
 const ABOUT = document.getElementById('about');
 const ENDGAME = document.getElementById('endgame');
+const STARSOFF = document.getElementById('starsoff');
 var OBJECTTYPE = [];
 const FUELTANK = [];
 var bombs = document.getElementById('bombs');
@@ -20,6 +21,9 @@ var cdown = 6;
 var cursor = 0;
 var KC = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 var gameInterval = null;
+var starsInterval = null;
+var starsIntervals = null;
+var starsIntervalss = null;
 var countInterval = null;
 var fuelTankInterval = null;
 var ghostInterval = null;
@@ -235,12 +239,12 @@ function spacePhysics(){
 		Math.floor(Math.random()*(GAME_WIDTH)), .5)}
 	  , 800);
 	  
-	  starsInterval = setInterval(function() {
+	  starsIntervals = setInterval(function() {
 	    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
 		Math.floor(Math.random()*(GAME_WIDTH)), 1)}
 	  , 700);
 	  
-	  starsInterval = setInterval(function() {
+	  starsIntervalss = setInterval(function() {
 	    createFlyingObj('stars', Math.floor(Math.random()*(GAME_HEIGHT)), 
 		Math.floor(Math.random()*(GAME_WIDTH)), 2.5)}
 	  , 500);
@@ -280,7 +284,7 @@ function reload() {
 
 function setAsteroidInterval(velocity = 2) {
 	if (astint > 50){
-		astint -= 100;
+		astint -= 75;
 	}
 	if (counter < 20) {
 		velocity = 2;
@@ -306,11 +310,8 @@ function setAsteroidInterval(velocity = 2) {
 	else if (counter >= 140 && counter < 160) {
 		velocity = 9;
 	}
-	else if (counter >= 160&& counter < 180) {
+	else if (counter >= 160) {
 		velocity = 10;
-	}
-	else if (counter >= 180) {
-		velocity = 11;
 	}
 	gameInterval = setInterval(function() {
       createFlyingObj('ast', Math.floor(Math.random()*(GAME_HEIGHT)), 0, Math.random() + velocity)}
@@ -365,6 +366,27 @@ $(function() {
     });
 });
 
+$(function() {
+    $("#starsoff").click(function() {
+    	if (STARSOFF.style.color != 'red'){
+    		clearInterval(starsInterval);
+	    	clearInterval(starsIntervals);
+	    	clearInterval(starsIntervalss);
+	    	cancelAnimationFrame(id);
+	    	for (var x = 0; x < OBJECTTYPE.length; x++){
+				if (OBJECTTYPE[x].className === 'stars'){
+					OBJECTTYPE[x].remove();
+				}
+			}
+	        STARSOFF.style.color = 'red';
+    	}
+    	else if (STARSOFF.style.color != 'green') {
+    		STARSOFF.style.color = 'green';
+    		spacePhysics();
+    	}
+    });
+});
+
 document.addEventListener('keydown', (e) => {
   cursor = (e.keyCode == KC[cursor]) ? cursor + 1 : 0;
   if (cursor == KC.length) {
@@ -390,6 +412,7 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)){
 	ABOUT.style.left = "2.5%";
 	ABOUT.style.fontSize = "28px";
 	JBOMB.style.left = "2.5%";
+	STARSOFF.style.display = "none";
 	window.addEventListener('touchstart', musicOn);
 }
 
