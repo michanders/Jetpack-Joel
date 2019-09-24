@@ -334,7 +334,7 @@ function joelGhost() {
 function start() {
 	
   AUDIO.play();
-  AUDIO.volume = 0.4;
+  AUDIO.volume = 1;
   
   START.style.opacity = 0;
   START.style.zIndex = -1;
